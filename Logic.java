@@ -1,0 +1,118 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Logic {
+
+	//List of possible messages
+
+	private static final String MESSAGE_ADD = "added to %1$s: \"%2$s\"";
+	private static final String MESSAGE_DELETED = "deleted from %1$s: \"%2$s\"";
+	private static final String MESSAGE_CLEAR = "all content deleted from %1$s";
+
+	//List of possible errors
+	private static final String ERROR_NO_COMMAND = "no such command";
+	private static final String ERROR_NO_SUCH_INDEX = "no such index";
+	private static final String ERROR_NO_STATEMENT = "no such statement";
+
+	//This arraylist will be used to store data for the file
+	private static ArrayList<String> contents = new ArrayList<String>();
+
+	
+	private static String fileName = "";
+	UI ui;
+	Storage storage;
+	Parser parser;
+
+	public Logic(String[] args){
+		String name = Arrays.toString(args);
+		fileName= name.substring (1, name.length()-1);
+		ui = new UI (fileName);
+		parser = new Parser();
+	}
+
+	public void run() {
+		ui.printWelcomeMessage();
+		runInput();
+		try {
+			storage.createFile(fileName);
+		} catch (IOException error) {
+			error.printStackTrace();
+		}
+	}
+	/**
+	 * This operation determines which command to run base on user input
+	 * 
+	 * @param file is the newly created file named by the user
+	 */
+	public void runInput() {
+		System.out.print("command: ");
+		String command = ui.scanCommand();
+		while (!command.equals("exit")){ //logic
+			Parser.COMMAND_TYPE commandType = parser.checkCommandType(command);
+			switch(commandType){
+			case COMMAND_ADD:
+				add(ui.scanLine());
+				break; 
+			case COMMAND_DELETE:
+				delete(ui.scanInt());
+				break;
+			case COMMAND_DISPLAY:
+				ui.display(contents);
+				break;
+			case COMMAND_CLEAR:
+				clear();
+				break;
+
+			default:
+				ui.scanLine();
+				ui.printMessage(ERROR_NO_COMMAND);
+			}
+			System.out.print("command: ");
+			command = ui.scanCommand();
+		}
+		try {
+			storage.exitAndSave(contents);
+		} catch (IOException error) {
+			System.out.println(error);
+		}
+	}
+
+	/**
+	 * this operation adds the string into an array list
+	 * 
+	 * @param statement to be added in
+	 */
+	public void add(String statement) {
+		if (statement == ""){
+			System.out.println(ERROR_NO_STATEMENT);
+			return;
+		} else {
+			statement = statement.substring(1,statement.length());
+			contents.add(statement);
+			String message = String.format(MESSAGE_ADD, fileName, statement);
+			ui.printMessage(message);
+		}
+	}
+
+	/**
+	 * this operation deletes the statement corresponding to the given index
+	 * 
+	 * @param num index to be deleted
+	 */
+	public void delete(int num) {
+		if (num>contents.size()) {
+			System.out.println(ERROR_NO_SUCH_INDEX);
+		} else {
+			ui.printMessage(String.format(MESSAGE_DELETED,fileName,contents.get(num-1)));
+			contents.remove(num-1);
+		}
+	}
+
+	public static void clear() { //logic
+		contents.clear();
+		System.out.println(String.format(MESSAGE_CLEAR,fileName));
+	}
+
+
+}
