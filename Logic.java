@@ -10,7 +10,7 @@ public class Logic {
 	private static final String MESSAGE_DELETED = "deleted from %1$s: \"%2$s\"";
 	private static final String MESSAGE_CLEAR = "all content deleted from %1$s";
 	private static final String MESSAGE_EMPTY = "content is empty";
-	private static final String MESSAGE_SORTED = "all contents sorted from %1$s";
+	private static final String MESSAGE_SORTED = "content is sorted";
 
 	//List of possible errors
 	private static final String ERROR_NO_COMMAND = "no such command";
@@ -120,8 +120,16 @@ public class Logic {
 		System.out.println(String.format(MESSAGE_CLEAR,fileName));
 	}
 	
+	public ArrayList<String> display(){
+		return ui.display(contents);
+	}
+	
 	public String sortByAlpha(){
-		return MESSAGE_EMPTY;
+		if (contents.isEmpty()){
+			return MESSAGE_EMPTY;
+		} else {
+			return MESSAGE_SORTED;
+		}
 	}
 
 

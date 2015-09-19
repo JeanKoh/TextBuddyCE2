@@ -28,6 +28,14 @@ public class TextBuddyUnitTest {
 		assertEquals("content is sorted", logic.sortByAlpha());
 		assertEquals("1. aaa", logic.display().get(0)); 
 		
+		//changing contents
+		logic.clear();
+		logic.add(" bbb");
+		logic.add(" aaa");
+		assertEquals("content is sorted", logic.sortByAlpha());
+		assertEquals("1. aaa", logic.display().get(0));
+		assertEquals("2. bbb", logic.display().get(1));
+
 	}
 
 }
