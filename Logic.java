@@ -12,25 +12,32 @@ public class Logic {
 	private static final String MESSAGE_CLEAR = "all content deleted from %1$s";
 	private static final String MESSAGE_EMPTY = "content is empty";
 	private static final String MESSAGE_SORTED = "content is sorted";
-
+	private static final String MESSAGE_NOTFOUND = "not found";
+	private static final String MESSAGE_FOUND = "search is complete";
+	
 	//List of possible errors
 	private static final String ERROR_NO_COMMAND = "no such command";
 	private static final String ERROR_NO_SUCH_INDEX = "no such index";
 	private static final String ERROR_NO_STATEMENT = "no such statement";
 
-	//This arraylist will be used to store data for the file
+	//These datas will be used to store contents for the file
 	private static ArrayList<String> contents;
+	private static ArrayList<String> searchContents;
 
-	
 	private static String fileName = "";
+	
+	//Other classes used
 	UI ui;
 	Storage storage;
 	Parser parser;
 
 	public Logic(String[] args){
 		contents = new ArrayList<String>();
+		searchContents = new ArrayList<String>();
+		
 		String name = Arrays.toString(args);
 		fileName= name.substring (1, name.length()-1);
+		
 		ui = new UI (fileName);
 		parser = new Parser();
 		storage = new Storage();
@@ -70,6 +77,9 @@ public class Logic {
 				break;
 			case COMMAND_SORT:
 				sortByAlpha();
+				break;
+			case COMMAND_SEARCH:
+				searchKeyword(ui.scanLine());
 				break;
 			default:
 				ui.scanLine();
@@ -133,6 +143,15 @@ public class Logic {
 			return MESSAGE_SORTED;
 		}
 	}
+	public ArrayList<String> displaySearch(){
+		return ui.display(searchContents);
+	}
 
-
+	public String searchKeyword(String key){
+		if (contents.isEmpty()){
+			return MESSAGE_NOTFOUND;
+		} else{
+			return MESSAGE_FOUND;
+		}
+	}
 }
