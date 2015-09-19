@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Logic {
 
@@ -128,6 +129,7 @@ public class Logic {
 		if (contents.isEmpty()){
 			return MESSAGE_EMPTY;
 		} else {
+			Collections.sort(contents);
 			return MESSAGE_SORTED;
 		}
 	}
