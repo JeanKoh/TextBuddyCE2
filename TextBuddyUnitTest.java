@@ -16,7 +16,9 @@ public class TextBuddyUnitTest {
 	
 	@Test
 	public void testSort() {
-		fail("Not yet implemented");
+		//when contents is empty
+		logic.clear();
+		assertEquals("content is empty",logic.sortByAlpha());
 	}
 
 }
