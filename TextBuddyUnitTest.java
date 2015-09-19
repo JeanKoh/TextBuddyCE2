@@ -40,7 +40,17 @@ public class TextBuddyUnitTest {
 
 	@Test
 	public void testSearch(){
-		fail("not implemented");
+		
+		//when content is empty
+		logic.clear();
+		assertEquals("not found", logic.searchKeyword("aaa"));
+		
+		//when key is empty
+		assertEquals("not found", logic.searchKeyword(""));
+		
+		//key is equal to content
+		logic.add(" aaa");
+		assertEquals("search is complete",logic.searchKeyword("aaa"));
 	}
 
 }
