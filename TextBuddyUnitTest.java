@@ -19,6 +19,15 @@ public class TextBuddyUnitTest {
 		//when contents is empty
 		logic.clear();
 		assertEquals("content is empty",logic.sortByAlpha());
+		
+		//adding contents
+		logic.add(" aaa");
+		assertEquals("1. aaa",logic.display().get(0));
+		
+		//checking first item in list
+		assertEquals("content is sorted", logic.sortByAlpha());
+		assertEquals("1. aaa", logic.display().get(0)); 
+		
 	}
 
 }
