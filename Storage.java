@@ -5,7 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Storage {
+	
+	//possible messages
+	private static final String MESSAGE_CREATE = "file is created";
+	
 	File file;
+	
+
 	/**
 	 * this operation creates a new file object input name
 	 * 
@@ -16,8 +22,8 @@ public class Storage {
 		file = new File(name);
 		if (!file.exists()){
 			file.createNewFile();
+			System.out.println(MESSAGE_CREATE);	
 		}
-		//return file;
 	}
 	
 		/**
@@ -26,7 +32,10 @@ public class Storage {
 		 * @param file	file to be written into
 		 * @throws IOException is thrown when errors occurs during writing
 		 */
-		public void exitAndSave(ArrayList<String> contents)throws IOException{ //storage
+		public void exitAndSave(ArrayList<String> contents)throws IOException{
+			if (contents.isEmpty()){
+				return;
+			}
 			FileWriter writer = new FileWriter(file);
 			BufferedWriter bWriter = new BufferedWriter(writer);
 			for (int i =0;i <contents.size();i++) {

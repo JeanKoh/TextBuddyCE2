@@ -9,6 +9,8 @@ public class Logic {
 	private static final String MESSAGE_ADD = "added to %1$s: \"%2$s\"";
 	private static final String MESSAGE_DELETED = "deleted from %1$s: \"%2$s\"";
 	private static final String MESSAGE_CLEAR = "all content deleted from %1$s";
+	private static final String MESSAGE_EMPTY = "content is empty";
+	private static final String MESSAGE_SORTED = "all contents sorted from %1$s";
 
 	//List of possible errors
 	private static final String ERROR_NO_COMMAND = "no such command";
@@ -16,7 +18,7 @@ public class Logic {
 	private static final String ERROR_NO_STATEMENT = "no such statement";
 
 	//This arraylist will be used to store data for the file
-	private static ArrayList<String> contents = new ArrayList<String>();
+	private static ArrayList<String> contents;
 
 	
 	private static String fileName = "";
@@ -25,20 +27,22 @@ public class Logic {
 	Parser parser;
 
 	public Logic(String[] args){
+		contents = new ArrayList<String>();
 		String name = Arrays.toString(args);
 		fileName= name.substring (1, name.length()-1);
 		ui = new UI (fileName);
 		parser = new Parser();
+		storage = new Storage();
 	}
 
 	public void run() {
 		ui.printWelcomeMessage();
-		runInput();
 		try {
 			storage.createFile(fileName);
 		} catch (IOException error) {
 			error.printStackTrace();
 		}
+		runInput();
 	}
 	/**
 	 * This operation determines which command to run base on user input
@@ -63,7 +67,9 @@ public class Logic {
 			case COMMAND_CLEAR:
 				clear();
 				break;
-
+			case COMMAND_SORT:
+				sortByAlpha();
+				break;
 			default:
 				ui.scanLine();
 				ui.printMessage(ERROR_NO_COMMAND);
@@ -109,9 +115,13 @@ public class Logic {
 		}
 	}
 
-	public static void clear() { //logic
+	public void clear() { //logic
 		contents.clear();
 		System.out.println(String.format(MESSAGE_CLEAR,fileName));
+	}
+	
+	public String sortByAlpha(){
+		return MESSAGE_EMPTY;
 	}
 
 
