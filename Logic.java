@@ -151,6 +151,7 @@ public class Logic {
 		if (contents.isEmpty()){
 			return MESSAGE_NOTFOUND;
 		} else{
+			searchContents = contents;
 			return MESSAGE_FOUND;
 		}
 	}
