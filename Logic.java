@@ -148,10 +148,16 @@ public class Logic {
 	}
 
 	public String searchKeyword(String key){
+		ArrayList<String> newSearch = new ArrayList<String>();
 		if (contents.isEmpty()){
 			return MESSAGE_NOTFOUND;
 		} else{
-			searchContents = contents;
+			for (int i = 0;i<contents.size();i++) {
+				if (contents.get(i).equals(key)){
+					newSearch.add(contents.get(i));
+				}
+			}
+			searchContents = newSearch;
 			return MESSAGE_FOUND;
 		}
 	}

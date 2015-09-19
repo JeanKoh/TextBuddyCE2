@@ -61,6 +61,12 @@ public class TextBuddyUnitTest {
 		assertEquals("1. aaa", logic.displaySearch().get(0));
 		assertEquals("search is complete",logic.searchKeyword("bbb"));
 		assertEquals("1. bbb", logic.displaySearch().get(0));
+		
+		//keyword is contained in content
+		logic.clear();
+		logic.add(" aabb");
+		assertEquals("search is complete",logic.searchKeyword("aa"));
+		assertEquals("1. aabb", logic.displaySearch().get(0));
 	}
 
 }

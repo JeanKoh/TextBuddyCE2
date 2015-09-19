@@ -45,8 +45,8 @@ public class UI {
 	 * @param contents
 	 * @return an arrayList of the content for testing purpose
 	 */
-	public ArrayList<String> display(ArrayList<String> contents) { //UI
-		ArrayList<String> ans = new ArrayList<String>(); //for testing purpose in jUnit
+	public ArrayList<String> display(ArrayList<String> contents) { 
+		ArrayList<String> ans = new ArrayList<String>(); 
 		if (contents.isEmpty()){
 			System.out.println(String.format(MESSAGE_EMPTY,fileName));
 		} else {
