@@ -14,7 +14,7 @@ public class Logic {
 	private static final String MESSAGE_SORTED = "content is sorted";
 	private static final String MESSAGE_NOTFOUND = "not found";
 	private static final String MESSAGE_FOUND = "search is complete";
-	
+
 	//List of possible errors
 	private static final String ERROR_NO_COMMAND = "no such command";
 	private static final String ERROR_NO_SUCH_INDEX = "no such index";
@@ -25,7 +25,7 @@ public class Logic {
 	private static ArrayList<String> searchContents;
 
 	private static String fileName = "";
-	
+
 	//Other classes used
 	UI ui;
 	Storage storage;
@@ -34,10 +34,10 @@ public class Logic {
 	public Logic(String[] args){
 		contents = new ArrayList<String>();
 		searchContents = new ArrayList<String>();
-		
+
 		String name = Arrays.toString(args);
 		fileName= name.substring (1, name.length()-1);
-		
+
 		ui = new UI (fileName);
 		parser = new Parser();
 		storage = new Storage();
@@ -80,6 +80,7 @@ public class Logic {
 				break;
 			case COMMAND_SEARCH:
 				searchKeyword(ui.scanLine());
+				displaySearch();
 				break;
 			default:
 				ui.scanLine();
@@ -130,11 +131,11 @@ public class Logic {
 		contents.clear();
 		System.out.println(String.format(MESSAGE_CLEAR,fileName));
 	}
-	
+
 	public ArrayList<String> display(){
 		return ui.display(contents);
 	}
-	
+
 	public String sortByAlpha(){
 		if (contents.isEmpty()){
 			return MESSAGE_EMPTY;
@@ -143,22 +144,36 @@ public class Logic {
 			return MESSAGE_SORTED;
 		}
 	}
+
 	public ArrayList<String> displaySearch(){
+		if (searchContents.isEmpty()){
+			return null;
+		}
 		return ui.display(searchContents);
 	}
 
+	/**
+	 * this operation search for keywords in the main content.
+	 * 
+	 * @param key words to look out for.
+	 * @return list containing search result
+	 */
 	public String searchKeyword(String key){
 		ArrayList<String> newSearch = new ArrayList<String>();
-		if (contents.isEmpty()){
+		if (contents.isEmpty()|| key == ""){
 			return MESSAGE_NOTFOUND;
-		} else{
-			for (int i = 0;i<contents.size();i++) {
-				if (contents.get(i).equals(key)){
-					newSearch.add(contents.get(i));
-				}
+		}
+		for (int i = 0;i<contents.size();i++) {
+			if (contents.get(i).contains(key)){
+				newSearch.add(contents.get(i));
 			}
-			searchContents = newSearch;
+		}
+		searchContents = newSearch;
+		if (newSearch.isEmpty()){
+			return MESSAGE_NOTFOUND;
+		} else {
 			return MESSAGE_FOUND;
 		}
+
 	}
 }

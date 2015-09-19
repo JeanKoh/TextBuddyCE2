@@ -67,6 +67,17 @@ public class TextBuddyUnitTest {
 		logic.add(" aabb");
 		assertEquals("search is complete",logic.searchKeyword("aa"));
 		assertEquals("1. aabb", logic.displaySearch().get(0));
+		
+		////keyword appears more than once
+		logic.add(" paaple");
+		logic.add(" bbb");
+		assertEquals("search is complete", logic.searchKeyword("aa"));
+		assertEquals("1. aabb", logic.displaySearch().get(0));
+		assertEquals("2. paaple", logic.displaySearch().get(1));
+		
+		//keyword doesn't appear in database
+		assertEquals("not found",logic.searchKeyword("paple"));
+		assertEquals(null,logic.displaySearch());
 	}
 
 }
